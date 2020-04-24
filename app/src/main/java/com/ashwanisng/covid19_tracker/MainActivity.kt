@@ -1,6 +1,7 @@
 package com.ashwanisng.covid19_tracker
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,9 +16,16 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
+//    now we have to make the object
+    lateinit var coronaAdapter : CoronaAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        when we open the app it show
+        list_tv.addHeaderView(LayoutInflater.from(this).
+        inflate(R.layout.item_header, list_tv, false))
 
         fetchResult()
     }
@@ -30,9 +38,20 @@ class MainActivity : AppCompatActivity() {
                 val data = Gson().fromJson(response.body?.string(), Response::class.java)
                 launch(Dispatchers.Main) {
                     bindCombinedData(data.statewise[0])
+
+//                    now we have to set the text
+                    bindStateWiseData(data.statewise.subList(1, data.statewise.size))
                 }
             }
         }
+    }
+
+    private fun bindStateWiseData(subList: List<StatewiseItem>) {
+
+//        now we have to use the adapter
+        coronaAdapter = CoronaAdapter(subList)
+        list_tv.adapter = coronaAdapter
+
     }
 
     private fun bindCombinedData(data: StatewiseItem) {
