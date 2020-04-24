@@ -19,22 +19,22 @@ class CoronaAdapter (val list: List<StatewiseItem>) : BaseAdapter() {
 //        fetch position of the item in the list
         val item = list[position]
 //        now call the text
-        view.cnfrmd_tv.text = SpanniableDelta("${item.confirmed}\n ↑ ${item.deltaconfirmed ?: "0"}",
+        view.cnfrmd_tv.text = SpanniableDelta("${item.confirmed}\n ⬆ ${item.deltaconfirmed ?: "0"}",
             "#D32F2F",
             item.confirmed?.length ?: 0
             )
 
-        view.active_tv.text = SpanniableDelta("${item.active}\n ↑ ${item.deltaactive ?: "0"}",
+        view.active_tv.text = SpanniableDelta("${item.active}\n ⬆ ${item.deltaactive ?: "0"}",
             "#1976D2",
             item.active?.length ?: 0
         )
 
-        view.rcrvd_tv.text = SpanniableDelta("${item.recovered}\n ↑ ${item.deltarecovered ?: "0"}",
+        view.rcrvd_tv.text = SpanniableDelta("${item.recovered}\n ⬆ ${item.deltarecovered ?: "0"}",
             "#388E3C",
             item.recovered?.length ?: 0
         )
 
-        view.dcsd_tv.text = SpanniableDelta("${item.deaths}\n ↑ ${item.deltadeaths ?: "0"}",
+        view.dcsd_tv.text = SpanniableDelta("${item.deaths}\n ⬆ ${item.deltadeaths ?: "0"}",
             "#FBC02D",
             item.deaths?.length ?: 0
         )

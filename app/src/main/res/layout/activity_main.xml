@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent"
+    android:id="@+id/swipeUpToRefresh"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/title_textView"
@@ -17,7 +24,7 @@
         android:textStyle="bold"
         android:textColor="@android:color/black"
         android:text="India Covid-19 \nTracker"
-         />
+        />
 
     <TextView
         android:id="@+id/lastupdated_tv"
@@ -206,4 +213,6 @@
         android:layout_below = "@+id/container">
     </ListView>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
