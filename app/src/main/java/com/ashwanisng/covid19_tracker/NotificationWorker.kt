@@ -62,6 +62,7 @@ class NotificationWorker(
         notificationManager.notify(0, notificationBuilder.build())
     }
 
+    @SuppressLint("SimpleDateFormat")
     override suspend fun doWork(): Result = coroutineScope {
         val response = withContext(Dispatchers.IO) { Client.api.clone().execute() }
         if (response.isSuccessful) {

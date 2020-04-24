@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
                     swipeUpToRefresh.isEnabled =
                         list_tv.firstVisiblePosition === 0 && list_tv.getChildAt(
                             0
-                        ).top === 0
+                        ).getTop() === 0
                 }
             }
         })
@@ -57,13 +57,14 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             val response = withContext(Dispatchers.IO) { Client.api.execute() }
             if (response.isSuccessful) {
+                swipeUpToRefresh.isRefreshing = false
 //                get the data from Json
                 val data = Gson().fromJson(response.body?.string(), Response::class.java)
                 launch(Dispatchers.Main) {
                     bindCombinedData(data.statewise[0])
 
 //                    now we have to set the text
-                    bindStateWiseData(data.statewise.subList(1, data.statewise.size))
+                    bindStateWiseData(data.statewise.subList(0, data.statewise.size))
                 }
             }
         }
@@ -108,37 +109,34 @@ class MainActivity : AppCompatActivity() {
             notificationWorkRequest
         )
     }
-
-
+}
 //    now make a function to show the last updated time
 
-     fun getTimeAgo(past: Date): String {
+fun getTimeAgo(past: Date): String {
+    val now = Date()
 
-        val now = Date()
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
+    val hours = TimeUnit.MILLISECONDS.toHours(now.time - past.time)
 
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
-        val hours = TimeUnit.MILLISECONDS.toHours(now.time - past.time)
+    return when {
+        seconds < 60 -> {
+            "Few seconds ago"
+        }
 
-        return when {
-            seconds < 60 -> {
-                "Few seconds ago"
-            }
+        minutes < 60 -> {
+            "$minutes minutes ago"
+        }
 
-            minutes < 60 -> {
-                "$minutes minutes ago"
-            }
+        hours < 24 -> {
+            "$hours hour ${minutes % 60} min ago"
+        }
 
-            hours < 24 -> {
-                "$hours hours ago"
-            }
+        else -> {
 
-            else -> {
-
-                SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(past).toString()
-
-            }
+            SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(past).toString()
         }
     }
 }
+
 
