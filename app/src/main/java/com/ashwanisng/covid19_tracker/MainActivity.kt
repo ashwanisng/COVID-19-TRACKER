@@ -1,21 +1,17 @@
 package com.ashwanisng.covid19_tracker
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
-import okhttp3.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-private val Response.statewise: Any
-    get() {}
 
 class MainActivity : AppCompatActivity() {
 
@@ -45,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         val lastUpdatedTime = data.lastupdatedtime
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         lastupdated_tv.text = "Last Updated\n ${getTimeAgo(simpleDateFormat.parse(lastUpdatedTime))}"
+
+        confirmed_tv.text = data.confirmed
+        active_tv.text = data.active
+        recovered_tv.text = data.recovered
+        deceased_tv.text = data.deaths
     }
 
 //    now make a function to show the last updated time
